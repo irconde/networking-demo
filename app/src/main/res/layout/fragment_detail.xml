@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="country"
+            type="gal.uvigo.networking_example.api.Country" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- TODO 4: Glide Binding -->
+            <ImageView
+                android:id="@+id/imageViewDetailFlag"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="16dp"
+                android:scaleType="fitCenter"
+                app:imageUrl="@{country.flags.png}"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <TextView
+                android:id="@+id/textViewDetailName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:text="@{country.name.official}"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="Kingdom of Spain" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/capital_format(country.capital != null &amp;&amp; !country.capital.isEmpty() ? country.capital.get(0) : `N/A`)}"
+                android:textSize="16sp"
+                tools:text="Capital: Madrid" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@{@string/region_format(country.region, country.subregion)}"
+                android:textSize="16sp"
+                tools:text="Region: Europe (Southern Europe)" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@{@string/population_format(country.population)}"
+                android:textSize="16sp"
+                tools:text="Population: 47,000,000" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>
