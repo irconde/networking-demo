@@ -13,6 +13,8 @@ object BindingAdapters {
             view.setImageDrawable(null)
             return
         }
+        // Begin a load with Glide that will be tied to the lifecycle of the Fragment,
+        // android.app.Fragment, or Activity that contains the View.
         Glide.with(view).load(url).into(view)
     }
 }
