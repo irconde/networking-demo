@@ -60,6 +60,8 @@ dependencies {
     implementation libs.retrofit
     implementation libs.retrofit.converter.moshi
     implementation libs.moshi
+    // This KSP (Kotlin Symbol Processing) annotation generates code at compile-time.
+    // It automatically creates adapters so you do not need to add giant generic libraries to your app.
     ksp libs.moshi.kotlin.codegen
     // Image Loading
     implementation libs.glide

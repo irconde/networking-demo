@@ -17,7 +17,6 @@
         android:layout_height="match_parent"
         android:padding="16dp">
 
-        <!-- TODO 1: Basic UI -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
             android:layout_width="0dp"
@@ -55,7 +54,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
             tools:text="Status message" />
 
-        <!-- TODO 5: RecyclerView -->
         <!-- Detail View -->
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollViewDetail"
@@ -74,7 +72,6 @@
                 android:padding="24dp"
                 android:visibility="@{country != null ? android.view.View.VISIBLE : android.view.View.GONE}">
 
-                <!-- TODO 4: Glide Binding -->
                 <ImageView
                     android:id="@+id/imageViewDetailFlag"
                     android:layout_width="match_parent"
