@@ -72,13 +72,13 @@
                 android:padding="24dp"
                 android:visibility="@{country != null ? android.view.View.VISIBLE : android.view.View.GONE}">
 
+                <!-- TODO 07. Define property here and assign the png flag url -->
                 <ImageView
                     android:id="@+id/imageViewDetailFlag"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginBottom="16dp"
                     android:scaleType="fitCenter"
-                    app:imageUrl="@{country.flags.png}"
                     tools:src="@tools:sample/backgrounds/scenic" />
 
                 <TextView
