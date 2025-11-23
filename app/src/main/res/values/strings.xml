@@ -3,4 +3,6 @@
     <string name="capital_format">Capital: %s</string>
     <string name="region_format">Region: %s (%s)</string>
     <string name="population_format">Population: %d</string>
+    <string name="enter_country_name">Enter country name</string>
+    <string name="search">Search</string>
 </resources>

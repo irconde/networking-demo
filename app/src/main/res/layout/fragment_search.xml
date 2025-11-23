@@ -19,7 +19,7 @@
             android:id="@+id/textInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Enter country name"
+            android:hint="@string/enter_country_name"
             app:layout_constraintEnd_toStartOf="@+id/buttonSearch"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Search"
+            android:text="@string/search"
             app:layout_constraintBottom_toBottomOf="@+id/textInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textInputLayout"
