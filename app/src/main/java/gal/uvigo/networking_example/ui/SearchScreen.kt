@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
@@ -25,7 +24,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,7 +31,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil3.compose.AsyncImage
 import gal.uvigo.networking_example.R
 import gal.uvigo.networking_example.api.Country
 
@@ -71,10 +68,8 @@ fun SearchScreen(viewModel: CountryViewModel = viewModel()) {
 
             // TODO 06. We collect the state of the screen so when the selected country
             //  changes we update the UI.
-            // TODO 06.01. We render the details of the selected country.
-            uiState.selectedCountry?.let { country ->
-                CountryDetail(country = country)
-            }
+            // TODO 06.01. We render the details of the selected country using the
+            //  CountryDetail composable below.
         }
     }
 }
@@ -118,15 +113,7 @@ private fun CountryDetail(
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         // TODO 07. We load the flag image using Coil right from the Composable.
-        AsyncImage(
-            model = country.flag.urlPng,
-            contentDescription = country.names.common,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .padding(bottom = 16.dp),
-            contentScale = ContentScale.Fit
-        )
+        //  Add an AsyncImage that loads `country.flag.urlPng`.
 
         Text(
             text = country.names.official,
