@@ -1,6 +1,6 @@
 # Networking Example (Country Explorer)
 
-Android sample app that searches countries via the [REST Countries](https://restcountries.com/) API and shows basic details (flag, capital, region, population). It is built with Kotlin, MVVM, coroutines, StateFlow, Jetpack Compose (Material 3), Retrofit + Moshi, and Coil for image loading.
+Android sample app that searches countries via the [REST Countries](https://restcountries.com/) **v5** API and shows basic details (flag, capital, region, population). It is built with Kotlin, MVVM, coroutines, StateFlow, Jetpack Compose (Material 3), Retrofit + Moshi, and Coil for image loading.
 
 ## Branches
 - `main`: Complete walkthrough solution. REST client, data models, and view logic are wired up so the search flow works end-to-end.
@@ -13,5 +13,16 @@ Android sample app that searches countries via the [REST Countries](https://rest
 - `api/` contains the Retrofit + Moshi networking layer (unchanged by the UI toolkit).
 - Flag images are loaded with Coil's `AsyncImage`.
 
+## Configuration (API key)
+REST Countries **v5** requires an API key on every request. The plain `v3.1` endpoints were retired and now return a deprecation error object, so this app targets `https://api.restcountries.com/countries/v5/`.
+
+1. Create a free key at <https://restcountries.com/sign-up>.
+2. Add it to your **`local.properties`** (already git-ignored) in the project root:
+   ```properties
+   RESTCOUNTRIES_API_KEY=your_key_here
+   ```
+   The value is injected into `BuildConfig.RESTCOUNTRIES_API_KEY` by `app/build.gradle`; it is never committed.
+3. Sync and run. If the key is missing, the app reports "Missing API key" instead of failing silently.
+
 ## Running
-Open the project in Android Studio, let Gradle sync, and run the `app` configuration on an emulator or device. No API key is required for REST Countries.
+Open the project in Android Studio, let Gradle sync, and run the `app` configuration on an emulator or device.

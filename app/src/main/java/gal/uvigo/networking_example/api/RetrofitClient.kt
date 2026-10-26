@@ -1,7 +1,8 @@
 package gal.uvigo.networking_example.api
 
 import com.squareup.moshi.Moshi
-
+import gal.uvigo.networking_example.BuildConfig
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -9,15 +10,27 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 // Retrofit is an expensive object to create and should be used as a singleton.
 object RetrofitClient {
     // TODO 04.01. Base URL for the API
-    private const val BASE_URL = "https://restcountries.com/v3.1/"
+    private const val BASE_URL = "https://api.restcountries.com/countries/v5/"
 
     // TODO 04.02. Create a new instance of Moshi using the builder
     private val moshi = Moshi.Builder().build()
+
+    // v5 requires an API key on every request. The key is injected from local.properties
+    // into BuildConfig so it is never committed to source control.
+    private val httpClient = OkHttpClient.Builder()
+        .addInterceptor { chain ->
+            val request = chain.request().newBuilder()
+                .addHeader("Authorization", "Bearer ${BuildConfig.RESTCOUNTRIES_API_KEY}")
+                .build()
+            chain.proceed(request)
+        }
+        .build()
 
     // TODO 04.03. Create a new instance of Retrofit using the builder.
     //  We need to attach a converter to the Retrofit instance so it knows how to convert the JSON response to a Kotlin object.
     val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
+        .client(httpClient)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 

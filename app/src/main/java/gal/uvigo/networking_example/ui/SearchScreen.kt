@@ -119,8 +119,8 @@ private fun CountryDetail(
     ) {
         // TODO 07. We load the flag image using Coil right from the Composable.
         AsyncImage(
-            model = country.flags.png,
-            contentDescription = country.countryName.common,
+            model = country.flag.urlPng,
+            contentDescription = country.names.common,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
@@ -129,7 +129,7 @@ private fun CountryDetail(
         )
 
         Text(
-            text = country.countryName.official,
+            text = country.names.official,
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -140,7 +140,7 @@ private fun CountryDetail(
         Text(
             text = stringResource(
                 R.string.capital_format,
-                country.capital?.firstOrNull() ?: "N/A"
+                country.capitals?.firstOrNull()?.name ?: "N/A"
             ),
             style = MaterialTheme.typography.bodyLarge
         )

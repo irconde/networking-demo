@@ -8,6 +8,14 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
 }
 
+// Read the REST Countries v5 API key from local.properties (not committed to VCS).
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withInputStream { localProperties.load(it) }
+}
+def restCountriesApiKey = localProperties.getProperty('RESTCOUNTRIES_API_KEY') ?: ""
+
 android {
     namespace 'gal.uvigo.networking_example'
     compileSdk 37
@@ -20,6 +28,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Exposed to code as BuildConfig.RESTCOUNTRIES_API_KEY.
+        buildConfigField "String", "RESTCOUNTRIES_API_KEY", "\"${restCountriesApiKey}\""
     }
 
     buildTypes {
@@ -36,6 +47,7 @@ android {
         jvmTarget = '11'
     }
     buildFeatures {
+        buildConfig true
         compose true
     }
 }

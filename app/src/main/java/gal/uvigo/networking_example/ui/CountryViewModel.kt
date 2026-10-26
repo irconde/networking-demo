@@ -2,6 +2,7 @@ package gal.uvigo.networking_example.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import gal.uvigo.networking_example.BuildConfig
 import gal.uvigo.networking_example.api.Country
 import gal.uvigo.networking_example.api.RetrofitClient
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,13 +29,24 @@ class CountryViewModel : ViewModel() {
     fun searchCountry(name: String) {
         if (name.isBlank()) return
 
+        if (BuildConfig.RESTCOUNTRIES_API_KEY.isBlank()) {
+            _uiState.update {
+                it.copy(
+                    status = "Missing API key",
+                    error = "Add RESTCOUNTRIES_API_KEY to local.properties"
+                )
+            }
+            return
+        }
+
         _uiState.update { it.copy(status = "Loading...", error = null) }
 
         // TODO 05.01. We make the API calls with coroutines
         viewModelScope.launch {
             try {
                 // TODO 05.02. We use the RetrofitClient to make the API call
-                val result = RetrofitClient.countriesApi.searchCountry(name)
+                //  v5 wraps the list of countries in data.objects.
+                val result = RetrofitClient.countriesApi.searchCountry(name).data?.objects.orEmpty()
 
                 // TODO 05.03. We update the UI state with the results
                 if (result.isNotEmpty()) {
