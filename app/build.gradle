@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     // TODO 01. Please note you need to have the ksp plugin enabled so Moshi annotations are
     //  understood and used by the compiler
     alias(libs.plugins.kotlin.ksp)
@@ -9,7 +10,7 @@ plugins {
 
 android {
     namespace 'gal.uvigo.networking_example'
-    compileSdk 36
+    compileSdk 37
 
     defaultConfig {
         applicationId "gal.uvigo.networking_example"
@@ -35,27 +36,28 @@ android {
         jvmTarget = '11'
     }
     buildFeatures {
-        dataBinding true
-        viewBinding true
+        compose true
     }
 }
 
 dependencies {
     implementation libs.androidx.core.ktx
-    implementation libs.androidx.appcompat
-    implementation libs.material
-    implementation libs.androidx.activity
-    implementation libs.androidx.constraintlayout
-    testImplementation libs.junit
-    androidTestImplementation libs.androidx.junit
-    androidTestImplementation libs.androidx.espresso.core
+    implementation libs.androidx.activity.compose
+
+    // Compose
+    implementation platform(libs.androidx.compose.bom)
+    implementation libs.androidx.compose.ui
+    implementation libs.androidx.compose.ui.tooling.preview
+    implementation libs.androidx.compose.material3
+    debugImplementation libs.androidx.compose.ui.tooling
+
+    // Lifecycle
     implementation libs.androidx.lifecycle.viewmodel.ktx
-    implementation libs.androidx.lifecycle.livedata.ktx
-    implementation libs.androidx.navigation.fragment.ktx
-    implementation libs.androidx.navigation.ui.ktx
+    implementation libs.androidx.lifecycle.viewmodel.compose
+    implementation libs.androidx.lifecycle.runtime.compose
     implementation libs.kotlinx.coroutines.android
 
-    // TODO 01. Add dependencies for Retrofit + Moshi + Glide
+    // TODO 01. Add dependencies for Retrofit + Moshi + Coil
     // Networking
     implementation libs.retrofit
     implementation libs.retrofit.converter.moshi
@@ -64,7 +66,13 @@ dependencies {
     // It automatically creates adapters so you do not need to add giant generic libraries to your app.
     ksp libs.moshi.kotlin.codegen
     // Image Loading
-    implementation libs.glide
+    implementation libs.coil.compose
+    implementation libs.coil.network.okhttp
+
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+    androidTestImplementation platform(libs.androidx.compose.bom)
 }
 java {
     toolchain {

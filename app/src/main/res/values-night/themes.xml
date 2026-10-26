@@ -1,7 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Networkingexample" parent="Theme.Material3.DayNight.NoActionBar">
+    <!-- Base application theme. This only styles the Activity window; the UI itself is Compose. -->
+    <style name="Base.Theme.Networkingexample" parent="android:Theme.Material.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
 </resources>

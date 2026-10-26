@@ -1,34 +1,34 @@
 package gal.uvigo.networking_example.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import gal.uvigo.networking_example.api.Country
 import gal.uvigo.networking_example.api.RetrofitClient
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
+// Single source of truth for everything the search screen needs to render.
+data class SearchUiState(
+    val countries: List<Country> = emptyList(),
+    val selectedCountry: Country? = null,
+    val status: String = "",
+    val error: String? = null
+)
 
 class CountryViewModel : ViewModel() {
 
-    private val _countries = MutableLiveData<List<Country>>()
-    val countries: LiveData<List<Country>> = _countries
-
-    private val _selectedCountry = MutableLiveData<Country?>()
-    val selectedCountry: LiveData<Country?> = _selectedCountry
-
-    private val _status = MutableLiveData<String>()
-    val status: LiveData<String> = _status
-
-    private val _error = MutableLiveData<String?>()
-    val error: LiveData<String?> = _error
+    private val _uiState = MutableStateFlow(SearchUiState())
+    val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
 
     // TODO 05. We need to implement the searchCountry function
     //  which is triggered when the Search button is clicked
     fun searchCountry(name: String) {
         if (name.isBlank()) return
 
-        _status.value = "Loading..."
-        _error.value = null
+        _uiState.update { it.copy(status = "Loading...", error = null) }
 
         // TODO 05.01. We make the API calls with coroutines
         viewModelScope.launch {
@@ -36,25 +36,36 @@ class CountryViewModel : ViewModel() {
                 // TODO 05.02. We use the RetrofitClient to make the API call
                 val result = RetrofitClient.countriesApi.searchCountry(name)
 
-                // TODO 05.03. We update the UI with the results
+                // TODO 05.03. We update the UI state with the results
                 if (result.isNotEmpty()) {
-                    _countries.value = result
-                    _selectedCountry.value = result.first() // Default to first for simple view
-                    _status.value = "Found ${result.size} results"
+                    _uiState.update {
+                        it.copy(
+                            countries = result,
+                            selectedCountry = result.first(), // Default to first for simple view
+                            status = "Found ${result.size} results"
+                        )
+                    }
                 } else {
-                    _countries.value = emptyList()
-                    _selectedCountry.value = null
-                    _status.value = "No country found"
-                    _error.value = "No country found"
+                    _uiState.update {
+                        it.copy(
+                            countries = emptyList(),
+                            selectedCountry = null,
+                            status = "No country found",
+                            error = "No country found"
+                        )
+                    }
                 }
             } catch (e: Exception) {
-                _countries.value = emptyList()
-                _selectedCountry.value = null
-                _status.value = "Error: ${e.message}"
-                _error.value = "Error loading country: ${e.localizedMessage}"
+                _uiState.update {
+                    it.copy(
+                        countries = emptyList(),
+                        selectedCountry = null,
+                        status = "Error: ${e.message}",
+                        error = "Error loading country: ${e.localizedMessage}"
+                    )
+                }
                 e.printStackTrace()
             }
         }
     }
-
 }
